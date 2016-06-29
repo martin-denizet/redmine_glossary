@@ -1,6 +1,6 @@
 <div class="contextual">
 <%= link_to_if_authorized(l(:button_edit), {:controller => 'glossary', :action => 'edit', :project_id => @project, :id => @term}, :class => 'icon icon-edit', :accesskey => accesskey(:edit)) %>
-<%= link_to_if_authorized l(:button_delete), {:controller => 'glossary', :action => 'destroy', :project_id => @project, :id => @term}, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-del' %>
+<%= link_to_if_authorized l(:button_delete), {:controller => 'glossary', :action => 'destroy', :project_id => @project, :id => @term}, :method => :post, :class => 'icon icon-del', :data => {:confirm => l(:text_are_you_sure)} %>
 </div>
 
 <h2><%= l(:label_term) %> #<%= @term.id %></h2>

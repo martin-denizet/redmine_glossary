@@ -31,7 +31,7 @@
             </td>
             <td align="right">
               <%= link_to_if_authorized(image_tag('edit.png'), { :action => 'edit', :controller => 'term_categories', :project_id => @project, :id => category }, :title => l(:button_edit)) %>
-              <%= link_to_if_authorized(image_tag('delete.png'), {:action => 'destroy', :controller => 'term_categories', :project_id => @project, :id => category}, :method => :post, :title => l(:button_delete)) %></td>
+              <%= link_to_if_authorized(image_tag('delete.png'), {:action => 'destroy', :controller => 'term_categories', :project_id => @project, :id => category}, :method => :post, :title => l(:button_delete), :data => {:confirm => l(:text_are_you_sure)}) %></td>
           </tr>
         <% end %>
       <% end %>
