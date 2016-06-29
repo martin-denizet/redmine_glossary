@@ -66,8 +66,9 @@ Redmine::WikiFormatting::Macros.register do
     term = nil
     case sargs.size
     when 1
-      proj = Project.find_by_identifier(params[:project_id])	unless proj
-      term = Term.find_for_macro(sargs[0], proj, true)
+      # show the term in the project which the page (obj) belongs to
+      proj = obj.project
+      term = Term.find_for_macro(sargs[0], proj, true) if proj
     when 2
       proj = Project.find_by_identifier(sargs[1])
       raise sprintf(I18n.t(:error_project_not_found), sargs[1])	unless proj
