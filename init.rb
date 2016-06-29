@@ -66,7 +66,7 @@ Redmine::WikiFormatting::Macros.register do
     term = nil
     case sargs.size
     when 1
-      # show the term in the project which the page (obj) belongs to
+      # find the term in the project which the page (obj) belongs to
       proj = obj.project
       term = Term.find_for_macro(sargs[0], proj, true) if proj
     when 2
