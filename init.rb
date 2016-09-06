@@ -66,8 +66,25 @@ Redmine::WikiFormatting::Macros.register do
     term = nil
     case sargs.size
     when 1
-      # find the term in the project which the page (obj) belongs to
-      proj = obj.project
+      proj = nil
+      if obj then
+        # In case page has content (like WikiContent, Issue
+        # In this case we can get project refer obj.project
+        proj = obj.respond_to?(:project) ? obj.project : nil
+      else
+        # In case pages does not have its own contents
+        if params[:controller] == "projects" and params[:action] == "show"
+          # project overview
+          proj = Project.find_by_identifier(params[:id])
+        elsif params.has_key?(:project_id)
+          # glossary index or other
+          proj = Project.find_by_identifier(params[:project_id])
+        else
+          # In case cannot specify project (like redmine home, mypage
+          proj = nil
+        end
+      end
+
       term = Term.find_for_macro(sargs[0], proj, true) if proj
     when 2
       proj = Project.find_by_identifier(sargs[1])
@@ -76,6 +93,8 @@ Redmine::WikiFormatting::Macros.register do
     else
       raise I18n.t(:error_term_macro_arg)
     end
+
+    return term unless proj # prevent raising error and render raw text
     (term) ? term_link(term) : term_link_new(sargs[0], proj)
   end
 end
