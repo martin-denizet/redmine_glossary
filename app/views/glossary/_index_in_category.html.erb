@@ -20,8 +20,8 @@
 <td><%=textilizable term.description %></td>
 <td align="right" width="40px">
   <% if term.project_id == @project.id %>
-<%= link_to_if_authorized(image_tag('edit.png'), {:action => 'edit', :project_id => @project, :id => term}, :title => l(:button_edit)) %>
-<%= link_to_if_authorized(image_tag('delete.png'), {:action => 'destroy', :project_id => @project, :id => term}, :method => :post, :title => l(:button_delete), :data => {:confirm => l(:text_are_you_sure)}) %>
+<%= link_to_if_authorized(image_tag('edit.png'), {:action => 'edit', :project_id => @project.identifier, :id => term}, :title => l(:button_edit)) %>
+<%= link_to_if_authorized(image_tag('delete.png'), {:action => 'destroy', :project_id => @project.identifier, :id => term}, :method => :post, :title => l(:button_delete), :data => {:confirm => l(:text_are_you_sure)}) %>
 <% end %>
 </td>
 </tr>

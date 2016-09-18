@@ -3,11 +3,11 @@ class GlossaryController < ApplicationController
   menu_item :glossary
   unloadable
 
-  layout 'base'  
+  layout 'base'
   before_filter :find_project, :authorize
   before_filter :find_term, :only => [:show, :edit, :destroy]
   before_filter :retrieve_glossary_style, :only => [:index, :show, :show_all, :import_csv_exec]
-  
+
   helper :attachments
   include AttachmentsHelper
   helper :sort
@@ -21,7 +21,7 @@ class GlossaryController < ApplicationController
 
 
   def index
-    
+
     @is_index = true
     set_show_params
     @terms = find_terms(@glossary_style.project_scope)
@@ -43,7 +43,7 @@ class GlossaryController < ApplicationController
     respond_to do |format|
       format.html { render :template => 'glossary/index.html.erb', :layout => !request.xhr? }
       format.csv  {
-        ary = @terms        
+        ary = @terms
         ary = GroupingTerms.flatten(@terms)	if (@glossary_style.grouping?)
         send_data(glossary_to_csv(ary), :type => 'text',
                   :filename => "glossary-export.csv")
@@ -51,12 +51,10 @@ class GlossaryController < ApplicationController
     end
   end
 
-
   def index_clear
     params[:search_index_ch] = nil
     redirect_to :controller => 'glossary', :action => 'index', :project_id => @project
   end
-  
 
   def show
     set_show_params
@@ -84,7 +82,7 @@ class GlossaryController < ApplicationController
           redirect_to :controller => 'glossary', :action => 'show', :project_id => @project,
                   :id => @term
         end
-      end		
+      end
     end
   end
 
@@ -95,14 +93,14 @@ class GlossaryController < ApplicationController
 
   def edit
     @term_categories = TermCategory.where(:project_id => @project.id).order(:position)
-    
+
     if request.post? || request.put? || request.patch?
       @term.attributes = params[:term]
       @term.updater_id = User.current.id
       if @term.save
         attach_files(@term, params[:attachments])
         flash[:notice] = l(:notice_successful_update)
-        redirect_to(:controller => 'glossary', :action => 'show', 
+        redirect_to(:controller => 'glossary', :action => 'show',
           :project_id => @project, :id => @term.id)
         return
       end
@@ -159,7 +157,7 @@ class GlossaryController < ApplicationController
       redirect_to({:action => 'index', :project_id => newproj})
     end
   end
-  
+
 
   def import_csv
   end
@@ -174,7 +172,7 @@ class GlossaryController < ApplicationController
     end
   end
 
-  
+
   private
 
   def show_param?(prmname)
@@ -209,7 +207,7 @@ class GlossaryController < ApplicationController
   end
 
   def grouping(type, terms, off_params)
-    grouptbl = {}    
+    grouptbl = {}
     terms.each {|term|
       off_params.delete_if {|prm| !term[prm].empty? }
       tgt = (type == GlossaryStyle::GroupByProject) ? term.project : term.category
@@ -225,7 +223,7 @@ class GlossaryController < ApplicationController
 
 
   #### sort
-  
+
   def sort_terms(terms, prms)
     terms.to_a.sort! {|a, b|
       re = nil
@@ -279,7 +277,7 @@ class GlossaryController < ApplicationController
     strs.each {|ss|
       symbols["search_str_#{cnt}".to_sym] = "%#{ss}%"
       cnt += 1
-    } 
+    }
     ary = []
     default_searched_params.each {|prm|
       subary = []
@@ -287,7 +285,7 @@ class GlossaryController < ApplicationController
       strs.each {|ss|
         subary << "( #{prm} LIKE :search_str_#{cnt} )"
         cnt += 1
-      } 
+      }
       ary << join_queries(subary, 'AND')
     }
     queries << join_queries(ary)	if (0 < ary.size)
@@ -310,7 +308,7 @@ class GlossaryController < ApplicationController
     end
     charset
   end
-    
+
 
   def query_search_index(ch, type, queries, symbols)
     return	unless (ch and !ch.empty?)
@@ -329,14 +327,14 @@ class GlossaryController < ApplicationController
       charset.each {|tch|
         subary << "( #{prm} LIKE :search_ch_#{cnt} )"
         cnt += 1
-      } 
+      }
       ary << join_queries(subary)
     }
     @query_string = join_queries(ary)
-    queries << join_queries(ary)	if (0 < ary.size)    
+    queries << join_queries(ary)	if (0 < ary.size)
   end
-  
-  
+
+
   def find_terms(project_scope)
     queries = []
     symbols = {}
@@ -363,14 +361,14 @@ class GlossaryController < ApplicationController
     end
   end
 
-  
-  def find_project   
+
+  def find_project
     project_id = params[:project_id] || (params[:issue] && params[:issue][:project_id])
     @project = Project.find(project_id)
   rescue ActiveRecord::RecordNotFound
     render_404
   end
-  
+
   def find_term
     @term = Term.find_by(project_id: @project.id, id: params[:id])
     render_404 unless @term

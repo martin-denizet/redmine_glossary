@@ -1,11 +1,11 @@
 
 <% urlopts = {:controller => 'glossary_styles', :action => 'edit',
-		     :project_id => @project,
-		     :glossary_style_id => @glossary_style.id}
+             :project_id => @project.identifier,
+             :glossary_style_id => @glossary_style.id}
   add_search_params(urlopts)
   form = form_for @glossary_style, :url => urlopts do |f| %>
 
-  
+
 <label> <%= f.check_box "show_desc" %> <%= l(:label_glossary_style_show_desc) %> </label>
 <br />
 

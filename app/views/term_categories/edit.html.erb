@@ -1,6 +1,6 @@
 <h2><%=l(:label_term_category)%></h2>
 
-<% form = labelled_form_for @category, :as => :category, :url => { :action => 'edit', :project_id => @project, :id => @category }, :html => {:class => 'tabular'} do |f| %>
+<% form = labelled_form_for @category, :as => :category, :url => { :action => 'edit', :project_id => @project.identifier, :id => @category }, :html => {:class => 'tabular'} do |f| %>
 <%= render :partial => 'term_categories/form', :locals => { :f => f } %>
 <%= submit_tag l(:button_save) %>
 <% end %>

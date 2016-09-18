@@ -11,16 +11,16 @@
 <p><%= f.select :category_id, (@term_categories.collect {|c| [c.name, c.id]}), :include_blank => true %>
 <% if Rails::VERSION::MAJOR >= 3 %>
   <%= link_to(l(:label_term_category_new),
-                 {:controller => 'glossary', :action => 'add_term_category', :project_id => @project.id },
-                 :category => 'category[name]', 
-                 :class => 'icon icon-add', 
-                 :tabindex => 199, 
+                 {:controller => 'glossary', :action => 'add_term_category', :project_id => @project.identifier },
+                 :category => 'category[name]',
+                 :class => 'icon icon-add',
+                 :tabindex => 199,
                  :method => 'get',
                  :remote => true) if authorize_for('glossary', 'add_term_category') %></p>
 <% else %>
   <%= prompt_to_remote(l(:label_term_category_new),
                      l(:label_term_category_new), 'category[name]',
-                     {:controller => 'glossary', :action => 'add_term_category', :project_id => @project },
+                     {:controller => 'glossary', :action => 'add_term_category', :project_id => @project.identifier },
                      :class => 'icon icon-add', :tabindex => 199) if authorize_for('glossary', 'add_term_category') %></p>
 <% end %>
 </div>
@@ -29,7 +29,7 @@
                    :rows => (@term.description.blank? ? 10 : [[10, @term.description.length / 50].max, 100].min),
                    :accesskey => accesskey(:edit),
                    :class => 'wiki-edit' %></p>
-             
+
 
 
 <p />
