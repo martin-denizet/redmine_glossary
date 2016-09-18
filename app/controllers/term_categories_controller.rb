@@ -1,9 +1,9 @@
 class TermCategoriesController < ApplicationController
   unloadable
-  
+
   layout 'base'
   menu_item :glossary, :only => [:index, :edit, :destroy]
-  
+
   before_filter :find_project, :authorize
   before_filter :retrieve_glossary_style, :only => [:index]
 
@@ -16,7 +16,7 @@ class TermCategoriesController < ApplicationController
   def index
     @categories = TermCategory.where(project_id: @project.id).order(:position)
   end
-  
+
   def edit
     @category = TermCategory.find_by(project_id: @project.id,  id: params[:id])
     if request.patch? and @category.update_attributes(params[:category])
@@ -28,7 +28,7 @@ class TermCategoriesController < ApplicationController
   end
 
   def change_order
-    if request.post? 
+    if request.post?
       category = TermCategory.find_by(project_id: @project.id, id: params[:id])
       case params[:position]
       when 'highest'; category.move_to_top
@@ -41,7 +41,7 @@ class TermCategoriesController < ApplicationController
   rescue ActiveRecord::RecordNotFound
     render_404
   end
-  
+
   def destroy
     @category = TermCategory.find_by(project_id: @project.id, id: params[:id])
     @term_count = @category.terms.size
@@ -57,9 +57,9 @@ class TermCategoriesController < ApplicationController
   rescue ActiveRecord::RecordNotFound
     render_404
   end
-  
+
 private
-  def find_project   
+  def find_project
     @project = Project.find(params[:project_id])
   rescue ActiveRecord::RecordNotFound
     render_404
