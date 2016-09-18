@@ -30,14 +30,17 @@ RedmineApp::Application.routes.draw do
     match 'glossary/:id/destroy',
           to: 'glossary#destroy',
           constraints: { id: /\d+/ },
-          :via => [:post, :delete]
+          via: [:post, :delete]
 
     match 'glossary/import_csv',
-          :to => 'glossary#import_csv',
-          :via => 'get'
+          to: 'glossary#import_csv',
+          via: 'get'
+    match 'glossary/import_csv_exec',
+          to: 'glossary#import_csv_exec',
+          via: 'post'
     match 'glossary/move_all',
-          :to => 'glossary#move_all',
-          :via => 'get'
+          to: 'glossary#move_all',
+          via: [:get, :post]
 
     match 'term_categories',
           to: 'term_categories#index',
