@@ -1,7 +1,7 @@
 require 'redmine'
 require 'cgi'
 
-module ActionView  
+module ActionView
   module Helpers
     module TermLinkHelper
 
@@ -11,10 +11,14 @@ module ActionView
                  :new_term_name => CGI::escapeHTML(name)},
                 {:class=>'new'})
       end
-      
+
       def term_link(term)
-        str = link_to(term.name, :controller => 'glossary', :action => 'show', :project_id => term.project,
-                      :id => term.id)
+        str = link_to(term.name,
+                      {:controller => 'glossary',
+                       :action => 'show',
+                       :project_id => term.project,
+                       :id => term.id},
+                      {:class => 'term-link'})
         unless (term.abbr_whole.empty?)
           str = content_tag(:abbr, str, :title=>term.abbr_whole)
         end
