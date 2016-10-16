@@ -8,7 +8,9 @@ class Term < ActiveRecord::Base
   validates_presence_of :name, :project
   validates_length_of :name, :maximum => 255
 
-  acts_as_attachable
+  acts_as_attachable :view_permission => :view_terms,
+                     :edit_permission => :manage_terms,
+                     :delete_permission => :manage_terms
 
   acts_as_searchable :columns => ["#{table_name}.name",
                                   "#{table_name}.description"],
