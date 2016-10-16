@@ -98,3 +98,5 @@ Redmine::WikiFormatting::Macros.register do
     (term) ? term_link(term) : term_link_new(sargs[0], proj)
   end
 end
+
+Redmine::Search.register :terms

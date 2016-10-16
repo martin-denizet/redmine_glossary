@@ -10,26 +10,36 @@ class Term < ActiveRecord::Base
 
   acts_as_attachable
 
-  acts_as_searchable :columns => ["#{table_name}.name", "#{table_name}.description"],
-                        :project_key => [:project]
+  acts_as_searchable :columns => ["#{table_name}.name",
+                                  "#{table_name}.description"],
+                     :preload => [:project]
 
   acts_as_event :title => Proc.new {|o| "#{l(:glossary_title)} ##{o.id}: #{o.name}" },
-                  :description => Proc.new {|o| "#{o.description}"},
-                  :datetime => :created_on,
-                  :type => 'terms',
-                  :url => Proc.new {|o| {:controller => 'glossary', :action => 'show', :id => o.project, :term_id => o.id} }
+                :description => :description,
+                :datetime => :created_on,
+                :type => 'terms',
+                :url => Proc.new {|o| {:controller => 'glossary',
+                                       :action => 'show',
+                                       :project_id => o.project,
+                                       :id => o.id }}
 
   attr_accessible :project_id, :category_id, :author, :name, :name_en, :datatype, :codename, :description,
                   :rubi, :abbr_whole
-  
+
+  scope :visible, lambda {|*args|
+    user = args.shift || User.current
+    joins(:project).
+      where(Project.allowed_to_condition(user, :view_terms, *args))
+  }
+
   def author
     author_id ? User.find_by_id(author_id) : nil
   end
-  
+
   def updater
     updater_id ? User.find_by_id(updater_id) : nil
   end
-  
+
   def project
     Project.find_by_id(project_id)
   end
@@ -37,7 +47,7 @@ class Term < ActiveRecord::Base
   def datetime
     (self[:created_on] != self[:updated_on]) ? self[:updated_on] : self[:created_on]
   end
-  
+
   def value(prmname)
     case prmname
     when 'project'
@@ -58,7 +68,7 @@ class Term < ActiveRecord::Base
       value(prmname).to_s
     end
   end
-  
+
   def <=>(term)
     id <=> term.id
   end
@@ -74,7 +84,7 @@ class Term < ActiveRecord::Base
     yield(a,b)
   end
 
-  
+
   def self.compare_by_param(prm, a, b)
     case prm
     when 'project'
@@ -86,7 +96,7 @@ class Term < ActiveRecord::Base
     when 'datetime'
       self.compare_safe(a.value(prm), b.value(prm)) {|aval, bval|
         (aval <=> bval) * -1
-      }      
+      }
     when 'name'
       ((a.rubi.empty?) ? a.name : a.rubi) <=> ((b.rubi.empty?) ? b.name : b.rubi)
     else
@@ -97,10 +107,10 @@ class Term < ActiveRecord::Base
   end
 
 
-  
+
   def to_s
     "##{id}: #{name}"
-  end  
+  end
 
   def self.find_for_macro(tname, proj, all_project = false)
     if proj
@@ -143,7 +153,5 @@ class Term < ActiveRecord::Base
     ['name', 'name_en', 'rubi', 'abbr_whole', 'category', 'datatype', 'codename',
      'description']
   end
-                  
-  
-  
+
 end
