@@ -19,7 +19,7 @@ class TermCategoriesController < ApplicationController
   
   def edit
     @category = TermCategory.find_by(project_id: @project.id,  id: params[:id])
-    if request.put? and @category.update_attributes(params[:category])
+    if request.patch? and @category.update_attributes(params[:category])
       flash[:notice] = l(:notice_successful_update)
       redirect_to :controller => 'term_categories', :action => 'index', :project_id => @project
     end
