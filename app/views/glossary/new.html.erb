@@ -1,7 +1,7 @@
 <h2><%=l(:label_term_new)%></h2>
 
 <% form = labelled_form_for @term, :as => :term,
-                             :url => {:action => 'new', :project_id => @project.identifier, :id => @term},
+                             :url => {:action => 'new', :project_id => @project, :id => @term},
                              :html => {:class => 'tabular', :multipart => true, :id => 'term-form'} do |f| %>
     <%= error_messages_for 'term' %>
     <div class="box">
@@ -12,12 +12,12 @@
     <% if Rails::VERSION::MAJOR >= 3 %>
         <%= preview_link({:controller => 'glossary',
                           :action => 'preview',
-                          :project_id => @project.identifier },
+                          :project_id => @project },
                      "term-form",
                      "preview") %>
     <% else %>
         <%= link_to_remote l(:label_preview),
-                { :url => { :controller => 'glossary', :action => 'preview', :project_id => @project.identifier },
+                { :url => { :controller => 'glossary', :action => 'preview', :project_id => @project },
                   :method => 'post',
                   :update => 'preview',
                   :with => "Form.serialize('term-form')",

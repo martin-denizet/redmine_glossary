@@ -1,8 +1,8 @@
 
-<% form = form_tag({:controller => 'glossary_styles', :action => 'search', :project_id => @project.identifier},
+<% form = form_tag({:controller => 'glossary_styles', :action => 'search', :project_id => @project},
 	    {:method => 'get', :id=>'search_form'}
 	    ) do %>
-<%= hidden_field_tag 'project_id', @project.identifier %>
+<%= hidden_field_tag 'project_id', @project %>
 <div id="glossary_search" class="hide-when-print">
 <fieldset id="filters" class="collapsible <%= (glossary_searching?) ? "" : "collapsed" %>">
     	<legend onclick="toggleFieldset(this);"><%= l(:label_filter_plural) %></legend>

@@ -1,6 +1,6 @@
 
 <% urlopts = {:controller => 'glossary_styles', :action => 'edit',
-             :project_id => @project.identifier,
+             :project_id => @project,
              :glossary_style_id => @glossary_style.id}
   add_search_params(urlopts)
   form = form_for @glossary_style, :url => urlopts do |f| %>

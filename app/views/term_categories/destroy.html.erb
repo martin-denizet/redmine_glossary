@@ -12,7 +12,7 @@
 </div>
 
 <%= submit_tag l(:button_apply) %>
-<%= link_to l(:button_cancel), :controller => 'term_categories', :action => 'index', :project_id => @project.identifier %>
+<%= link_to l(:button_cancel), :controller => 'term_categories', :action => 'index', :project_id => @project %>
 <% end %>
 <%= form if Rails::VERSION::MAJOR >= 3 %>
 

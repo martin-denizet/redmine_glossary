@@ -1,6 +1,6 @@
 
 <div class="contextual">
-  <%= link_to_if_authorized(l(:label_term_new), {:controller => 'glossary', :action => 'new', :project_id => @project.identifier}, :class => 'icon icon-add') %>
+  <%= link_to_if_authorized(l(:label_term_new), {:controller => 'glossary', :action => 'new', :project_id => @project}, :class => 'icon icon-add') %>
 </div>
 
 <%
