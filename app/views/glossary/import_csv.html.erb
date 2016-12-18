@@ -4,7 +4,7 @@
 <% form = form_tag({:controller => 'glossary', :action => 'import_csv_exec', :project_id=>@project},
             {:multipart => true}) do %>
 
-<%= l(:label_csv_file) %>
+<%= l(:label_csv_file) %> 
 <%= file_field_tag 'import_file', :accept => 'text/csv', :size => '60%' %>
 <br />
 <br />
@@ -23,7 +23,7 @@
 <label> <%= check_box_tag("is_first_comment", '1', true) %>
  <%= l(:label_csv_import_is_first_comment) %> </label>
 <br />
-
+   
 <br />
 
 <%

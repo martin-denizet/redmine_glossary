@@ -3,7 +3,7 @@
   <%= link_to_if_authorized(l(:label_term_new), {:controller => 'glossary', :action => 'new', :project_id => @project}, :class => 'icon icon-add') %>
 </div>
 
-<%
+<% 
 subtitle = ""
 if params[:search_index_ch]
   subtitlle = "- #{params[:search_index_ch]} -"
