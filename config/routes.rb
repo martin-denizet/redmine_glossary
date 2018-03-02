@@ -8,17 +8,17 @@ RedmineApp::Application.routes.draw do
 
   scope 'projects/:project_id' do
     match 'glossary',
-          :to => 'glossary#index',
-          :via => 'get'
+          to: 'glossary#index',
+          via: 'get'
     match 'glossary/index_clear',
-          :to => 'glossary#index_clear',
-          :via => 'get'
+          to: 'glossary#index_clear',
+          via: 'get'
     match 'glossary/new',
-          :to => 'glossary#new',
-          :via => [ :get, :post ]
+          to: 'glossary#new',
+          via: %i[get post]
     match 'glossary/preview',
-          :to => 'glossary#preview',
-          :via => [ :get, :post, :patch ]
+          to: 'glossary#preview',
+          via: %i[get post patch]
     match 'glossary/:id',
           to: 'glossary#show',
           constraints: { id: /\d+/ },
@@ -26,11 +26,11 @@ RedmineApp::Application.routes.draw do
     match 'glossary/:id/edit',
           to: 'glossary#edit',
           constraints: { id: /\d+/ },
-          via: [ :get, :patch ]
+          via: %i[get patch]
     match 'glossary/:id/destroy',
           to: 'glossary#destroy',
           constraints: { id: /\d+/ },
-          via: [:post, :delete]
+          via: %i[post delete]
 
     match 'glossary/import_csv',
           to: 'glossary#import_csv',
@@ -40,25 +40,25 @@ RedmineApp::Application.routes.draw do
           via: 'post'
     match 'glossary/move_all',
           to: 'glossary#move_all',
-          via: [:get, :post]
+          via: %i[get post]
 
     match 'term_categories',
           to: 'term_categories#index',
           via: 'get'
     match 'glossary/add_term_category',
           to: 'glossary#add_term_category',
-          via: [ :get , :post ]
+          via: %i[get post]
     match 'term_categories/:id/edit',
           to: 'term_categories#edit',
           constraints: { id: /\d+/ },
-          via: [ :get, :patch]
+          via: %i[get patch]
     match 'term_categories/:id/destroy',
           to: 'term_categories#destroy',
           constraints: { id: /\d+/ },
-          via: [ :post, :delete ]
+          via: %i[post delete]
     match 'term_categories/:id/change_order',
           to: 'term_categories#change_order',
           constraints: { id: /\d+/ },
-          via: [ :post ]
+          via: [:post]
   end
 end
