@@ -29,9 +29,9 @@ class GroupingTerms
       return 1 if rhterm.target
     end
     case type
-    when GlossaryStyle::GroupByCategory
+    when GlossaryStyle::GROUP_BY_CATEGORY
       @target.position <=> rhterm.target.position
-    when GlossaryStyle::GroupByProject
+    when GlossaryStyle::GROUP_BY_PROJECT
       @target.identifier <=> rhterm.target.identifier
     end
   end

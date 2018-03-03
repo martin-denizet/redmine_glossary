@@ -13,7 +13,7 @@ module GlossaryStylesHelper
     end
 
     unless @glossary_style
-      @glossary_style = GlossaryStyle.new(groupby: GlossaryStyle::GroupByCategory)
+      @glossary_style = GlossaryStyle.new(groupby: GlossaryStyle::GROUP_BY_CATEGORY)
       @glossary_style.user_id = User.current.id
     end
   end
@@ -62,11 +62,11 @@ module GlossaryStylesHelper
   def authorized_projects(projscope, curproj, authcnd)
     ary = []
     case projscope
-    when GlossaryStyle::ProjectCurrent
+    when GlossaryStyle::PROJECT_CURRENT
       return [curproj]
-    when GlossaryStyle::ProjectMine
+    when GlossaryStyle::PROJECT_MINE
       ary = User.current.memberships.collect(&:project).compact.uniq
-    when GlossaryStyle::ProjectAll
+    when GlossaryStyle::PROJECT_ALL
       ary = Project.visible.all
     end
     ary.find_all do |proj|

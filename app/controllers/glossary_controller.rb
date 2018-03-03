@@ -172,12 +172,12 @@ class GlossaryController < ApplicationController
   def show_param?(prmname)
     case prmname
     when 'project'
-      return false	unless @glossary_style.project_scope != GlossaryStyle::ProjectCurrent
+      return false	unless @glossary_style.project_scope != GlossaryStyle::PROJECT_CURRENT
       return true	unless @is_index
-      @glossary_style.groupby != GlossaryStyle::GroupByProject
+      @glossary_style.groupby != GlossaryStyle::GROUP_BY_PROJECT
     when 'category'
       return true	unless @is_index
-      @glossary_style.groupby != GlossaryStyle::GroupByCategory
+      @glossary_style.groupby != GlossaryStyle::GROUP_BY_CATEGORY
     when 'rubi'
       (param_visible?(prmname) && !@is_index)
     when 'abbr_whole'
@@ -204,7 +204,7 @@ class GlossaryController < ApplicationController
     grouptbl = {}
     terms.each do |term|
       off_params.delete_if { |prm| !term[prm].empty? }
-      tgt = type == GlossaryStyle::GroupByProject ? term.project : term.category
+      tgt = type == GlossaryStyle::GROUP_BY_PROJECT ? term.project : term.category
       gterms = grouptbl[tgt]
       unless gterms
         gterms = GroupingTerms.new(type, tgt)

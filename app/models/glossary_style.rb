@@ -34,7 +34,8 @@ class GlossaryStyle < ActiveRecord::Base
 
   def sort_params
     ary = []
-    for cnt in 0...3
+    cnt = 0...3
+    cnt.each do
       prm = self["sort_item_#{cnt}"]
       next unless prm && !prm.empty?
       case prm
