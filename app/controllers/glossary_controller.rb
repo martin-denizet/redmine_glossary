@@ -25,7 +25,7 @@ class GlossaryController < ApplicationController
     @terms = find_terms(@glossary_style.project_scope)
     unless @terms.empty?
       sortparams = @glossary_style.sort_params
-      sort_terms(@terms, sortparams)	unless sortparams.empty?
+      sort_terms(@terms, sortparams) unless sortparams.empty?
       off_params = @show_params.clone
       off_params.delete('category')
       off_params.delete('project')
@@ -41,7 +41,7 @@ class GlossaryController < ApplicationController
       format.html { render template: 'glossary/index.html.erb', layout: !request.xhr? }
       format.csv  do
         ary = @terms
-        ary = GroupingTerms.flatten(@terms)	if @glossary_style.grouping?
+        ary = GroupingTerms.flatten(@terms) if @glossary_style.grouping?
         send_data(glossary_to_csv(ary), type: 'text',
                                         filename: 'glossary-export.csv')
       end
@@ -64,7 +64,7 @@ class GlossaryController < ApplicationController
   def new
     @term_categories = TermCategory.where(project_id: @project.id).order(:position)
     @term = Term.new(params[:term])
-    @term.name = CGI.unescapeHTML(params[:new_term_name])	if params[:new_term_name]
+    @term.name = CGI.unescapeHTML(params[:new_term_name]) if params[:new_term_name]
     @term.project_id = @project.id
 
     unless request.get? || request.xhr?
@@ -172,11 +172,11 @@ class GlossaryController < ApplicationController
   def show_param?(prmname)
     case prmname
     when 'project'
-      return false	unless @glossary_style.project_scope != GlossaryStyle::PROJECT_CURRENT
-      return true	unless @is_index
+      return false  unless @glossary_style.project_scope != GlossaryStyle::PROJECT_CURRENT
+      return true unless @is_index
       @glossary_style.groupby != GlossaryStyle::GROUP_BY_PROJECT
     when 'category'
-      return true	unless @is_index
+      return true unless @is_index
       @glossary_style.groupby != GlossaryStyle::GROUP_BY_CATEGORY
     when 'rubi'
       (param_visible?(prmname) && !@is_index)
@@ -222,7 +222,7 @@ class GlossaryController < ApplicationController
       re = nil
       prms.each do |prm|
         re = Term.compare_by_param(prm, a, b)
-        break	if re != 0
+        break if re != 0
       end
       re == 0 ? a.id <=> b.id : re
     end
@@ -238,13 +238,13 @@ class GlossaryController < ApplicationController
   def query_project_scope(projscope, queries)
     ary = authorized_projects(projscope, @project,
                               controller: :glossary, action: :index)
-    return false	if ary.empty?
+    return false if ary.empty?
     queries << join_queries(ary.collect { |proj| "project_id = #{proj.id}" })
     true
   end
 
   def query_category(catname, queries)
-    return	if !catname || catname.empty?
+    return if !catname || catname.empty?
     if catname == "(#{l(:label_not_categorized)})"
       queries << '( category_id IS NULL )'
     else
@@ -257,12 +257,12 @@ class GlossaryController < ApplicationController
           ary << "category_id = #{encat.id}"
         end
       end
-      queries << join_queries(ary)	unless ary.empty?
+      queries << join_queries(ary) unless ary.empty?
     end
   end
 
   def query_search_str(str, queries, symbols)
-    return	unless str && !str.empty?
+    return unless str && !str.empty?
     strs = tokenize_by_space(str)
     cnt = 0
     strs.each do |ss|
@@ -279,12 +279,12 @@ class GlossaryController < ApplicationController
       end
       ary << join_queries(subary, 'AND')
     end
-    queries << join_queries(ary)	unless ary.empty?
+    queries << join_queries(ary) unless ary.empty?
   end
 
   def get_search_index_charset(ch, type)
     charset = [ch]
-    return charset	if type
+    return charset if type
     idx = l(:index_ary).index(ch)
     subary = l(:index_subary)
     if subary.is_a?(Array) && subary[idx] && !subary[idx].empty?
@@ -300,10 +300,10 @@ class GlossaryController < ApplicationController
   end
 
   def query_search_index(ch, type, queries, symbols)
-    return	unless ch && !ch.empty?
+    return  unless ch && !ch.empty?
     charset = get_search_index_charset(ch, type)
     searchprms = %i[name abbr_whole rubi]
-    searchprms << :name_en	if type
+    searchprms << :name_en if type
     cnt = 0
     charset.each do |tch|
       symbols["search_ch_#{cnt}".to_sym] = tch + '%'
@@ -320,13 +320,13 @@ class GlossaryController < ApplicationController
       ary << join_queries(subary)
     end
     @query_string = join_queries(ary)
-    queries << join_queries(ary)	unless ary.empty?
+    queries << join_queries(ary) unless ary.empty?
   end
 
   def find_terms(project_scope)
     queries = []
     symbols = {}
-    return []	unless query_project_scope(project_scope, queries)
+    return [] unless query_project_scope(project_scope, queries)
     query_category(params[:search_category], queries)
     query_search_str(params[:search_str], queries, symbols)
     query_search_index(params[:search_index_ch], params[:search_index_type],

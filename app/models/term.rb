@@ -1,4 +1,5 @@
 class Term < ActiveRecord::Base
+
   unloadable
 
   belongs_to :category, class_name: 'TermCategory', foreign_key: 'category_id'
@@ -21,11 +22,11 @@ class Term < ActiveRecord::Base
                 datetime: :created_on,
                 type: 'terms',
                 url: proc { |o|
-                            { controller: 'glossary',
-                              action: 'show',
-                              project_id: o.project,
-                              id: o.id }
-                            }
+                  { controller: 'glossary',
+                    action: 'show',
+                    project_id: o.project,
+                    id: o.id }
+                }
 
   attr_accessible :project_id, :category_id, :author,
                   :name, :name_en, :datatype, :codename, :description,

@@ -2,7 +2,7 @@
 <% for term in show_all_in_category -%>
 <div class="term" >
 <h3> <%= term_link(term) %> </h3>
-<%= render(partial: "glossary/show_one", object: term) %>
+<%= render partial: 'glossary/show_one', object: term  %>
 
 </div>
 <br />

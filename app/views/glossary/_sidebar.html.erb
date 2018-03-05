@@ -1,21 +1,21 @@
 
 <% if User.current.allowed_to?(:view_terms, @project, global: true) %>
   <h3><%= l(:label_view) %></h3>
-  <%= render(partial: "glossary_styles/form",
-	   object: @view_style) %>
+  <%= render partial: 'glossary_styles/form',
+	   object: @view_style %>
   <br />
 <% end %>
 
 
 <% if User.current.allowed_to?(:manage_terms, @project, global: true) %>
   <h3><%= l(:label_term) %></h3>
-  <%= link_to(l(:label_term_new), {controller: 'glossary', action: 'new', project_id: @project}, class: 'icon icon-add') %>
+  <%= link_to l(:label_term_new), {controller: 'glossary', action: 'new', project_id: @project}, class: 'icon icon-add' %>
   <br />
-<%   if (Term.find_by(project_id: @project)) %>
+<%   if Term.find_by(project_id: @project) %>
   <%= link_to_if_authorized(l(:label_move_all_terms), {controller: 'glossary', action: 'move_all', project_id: @project}, class: 'icon icon-move') %>
   <br />
 <%   end %>
-  <%= link_to(l(:label_glossary_import_csv), {controller: 'glossary', action: 'import_csv', project_id: @project}) %>
+  <%= link_to l(:label_glossary_import_csv), {controller: 'glossary', action: 'import_csv', project_id: @project} %>
   <br />
 <% end %>
 

@@ -33,7 +33,7 @@ module GlossaryHelper
   def collect_visible_params(_prmary)
     ary = []
     prmary do |prm|
-      ary << prm	if param_visible?(prm)
+      ary << prm  if param_visible?(prm)
     end
   end
 
