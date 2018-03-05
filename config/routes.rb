@@ -4,7 +4,7 @@ RedmineApp::Application.routes.draw do
         via: 'get'
   match 'glossary_styles/edit',
         to: 'glossary_styles#edit',
-        via: 'patch'
+        via: %i[post patch]
 
   scope 'projects/:project_id' do
     match 'glossary',

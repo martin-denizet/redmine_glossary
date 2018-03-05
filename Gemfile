@@ -1,1 +1,1 @@
-gem 'acts-as-list'
+gem 'acts_as_list'
