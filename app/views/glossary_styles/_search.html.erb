@@ -1,6 +1,6 @@
 
-<% form = form_tag({:controller => 'glossary_styles', :action => 'search', :project_id => @project},
-	    {:method => 'get', :id=>'search_form'}
+<% form = form_tag({controller: 'glossary_styles', action: 'search', project_id: @project},
+	    {method: 'get', :id=>'search_form'}
 	    ) do %>
 <%= hidden_field_tag 'project_id', @project %>
 <div id="glossary_search" class="hide-when-print">
@@ -21,7 +21,7 @@
     select_tag(:search_category,
                options_for_select(seach_category_options(@glossary_style.project_scope, @project),
 	                          params[:search_category]),
-               {:include_blank => true})
+               {include_blank: true})
 %>
 </td></tr>
 
@@ -33,7 +33,7 @@
 </table>
 
 <%= submit_tag l(:label_search) %>
-<%= submit_tag l(:button_clear), :name => 'search_clear' %>
+<%= submit_tag l(:button_clear), name: 'search_clear' %>
 
 
 

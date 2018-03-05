@@ -1,29 +1,29 @@
 <h2><%= l(:label_term) %> #<%= @term.id %></h2>
 
-<% form = labelled_form_for @term, :as => :term,
-                             :url => {:action => 'edit', :project_id => @project, :id => @term},
-                             :html => {:class => 'tabular', :multipart => true, :id => 'term-form'} do |f| %>
+<% form = labelled_form_for @term, as: :term,
+                             url: {action: 'edit', project_id: @project, id: @term},
+                             html: {class: 'tabular', multipart: true, id: 'term-form'} do |f| %>
     <%= error_messages_for 'term' %>
     <div class="box">
-    <%= render :partial => 'glossary/form', :locals => {:f => f} %>
+    <%= render partial: 'glossary/form', locals: {f: f} %>
     </div>
     <%= submit_tag l(:button_edit) %>
     <% if Rails::VERSION::MAJOR >= 3 %>
-        <%= preview_link({:controller => 'glossary',
-                          :action => 'preview',
-                          :project_id => @project },
+        <%= preview_link({controller: 'glossary',
+                          action: 'preview',
+                          project_id: @project },
                          "term-form",
                          "preview") %>
     <% else %>
       <%= link_to_remote l(:label_preview),
-                 { :url => { :controller => 'glossary',
-                             :action => 'preview',
-                             :project_id => @project },
-                   :method => 'post',
-                   :update => 'preview',
-                   :with => "Form.serialize('term-form')",
-                   :complete => "Element.scrollTo('preview')"
-                 }, :accesskey => accesskey(:preview) %>
+                 { url: { controller: 'glossary',
+                             action: 'preview',
+                             project_id: @project },
+                   method: 'post',
+                   update: 'preview',
+                   with: "Form.serialize('term-form')",
+                   complete: "Element.scrollTo('preview')"
+                 }, accesskey: accesskey(:preview) %>
     <% end %>
 <% end %>
 <%= form if Rails::VERSION::MAJOR >= 3 %>

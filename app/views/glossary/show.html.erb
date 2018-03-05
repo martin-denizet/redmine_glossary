@@ -1,6 +1,6 @@
 <div class="contextual">
-<%= link_to_if_authorized(l(:button_edit), {:controller => 'glossary', :action => 'edit', :project_id => @project, :id => @term}, :class => 'icon icon-edit', :accesskey => accesskey(:edit)) %>
-<%= link_to_if_authorized l(:button_delete), {:controller => 'glossary', :action => 'destroy', :project_id => @project, :id => @term}, :method => :post, :class => 'icon icon-del', :data => {:confirm => l(:text_are_you_sure)} %>
+<%= link_to_if_authorized(l(:button_edit), {controller: 'glossary', action: 'edit', project_id: @project, id: @term}, class: 'icon icon-edit', accesskey: accesskey(:edit)) %>
+<%= link_to_if_authorized l(:button_delete), {controller: 'glossary', action: 'destroy', project_id: @project, id: @term}, method: :post, class: 'icon icon-del', data: {confirm: l(:text_are_you_sure)} %>
 </div>
 
 <h2><%= l(:label_term) %> #<%= @term.id %></h2>
@@ -8,7 +8,7 @@
 <div class="term" >
 
 <h3><%=h @term.name %> </h3>
-<%= render(:partial => "glossary/show_one", :object => @term) %>
+<%= render(partial: "glossary/show_one", object: @term) %>
 
 <p class="author">
 <%= authoring @term.created_on, @term.author %>.
@@ -24,6 +24,6 @@
 </div>
 
 
-<%= render :partial => 'glossary/view_term' %>
+<%= render partial: 'glossary/view_term' %>
 
 <% html_title "##{@term.id}: #{@term.name}" -%>

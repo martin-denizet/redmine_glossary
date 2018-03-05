@@ -1,6 +1,6 @@
 
 <div class="contextual">
-  <%= link_to_if_authorized(l(:label_term_new), {:controller => 'glossary', :action => 'new', :project_id => @project}, :class => 'icon icon-add') %>
+  <%= link_to_if_authorized(l(:label_term_new), {controller: 'glossary', action: 'new', project_id: @project}, class: 'icon icon-add') %>
 </div>
 
 <% 
@@ -12,8 +12,8 @@ end %>
 <h1><%= t('glossary_title') %> <%= subtitlle %>  </h1>
 
 <br />
-<% if User.current.allowed_to?(:view_terms, @project, :global => true) %>
-  <%= render(:partial => "glossary_styles/search") %>
+<% if User.current.allowed_to?(:view_terms, @project, global: true) %>
+  <%= render(partial: "glossary_styles/search") %>
   <br />
 <% end %>
 
@@ -24,14 +24,14 @@ end %>
     <% @terms.each do |gterms| %>
         <h2><%= "#{list_number}. #{gterms.name}" %></h2>
         <% list_number += 1 %>
-        <%= render(:partial => tempname, :object => gterms.ary) %>
+        <%= render(partial: tempname, object: gterms.ary) %>
     <% end %>
   <% else %>
-    <%= render(:partial => tempname, :object => @terms) %>
+    <%= render(partial: tempname, object: @terms) %>
   <% end %>
 
   <% other_formats_links do |f| %>
-    <%= f.link_to 'CSV', :url => params %>
+    <%= f.link_to 'CSV', url: params %>
   <% end %>
 
 <% else %>
@@ -39,4 +39,4 @@ end %>
 <% end %>
 
 
-<%= render :partial => 'glossary/view_term' %>
+<%= render partial: 'glossary/view_term' %>

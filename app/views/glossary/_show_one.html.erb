@@ -11,7 +11,7 @@
 <% unless (term.description.empty?) %>
   <strong><%=l(:field_description)%></strong>:
   <div class="wiki">
-    <%= textilizable term, :description, :attachments => term.attachments %>
+    <%= textilizable term, :description, attachments: term.attachments %>
   </div>
 <% end %>
 <%= link_to_attachments term %>

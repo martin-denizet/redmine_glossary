@@ -1,9 +1,9 @@
 
-<% urlopts = {:controller => 'glossary_styles', :action => 'edit',
-		     :project_id => @project,
-		     :glossary_style_id => @glossary_style.id}
+<% urlopts = {controller: 'glossary_styles', action: 'edit',
+		     project_id: @project,
+		     glossary_style_id: @glossary_style.id}
   add_search_params(urlopts)
-  form = form_for @glossary_style, :url => urlopts do |f| %>
+  form = form_for @glossary_style, url: urlopts do |f| %>
 
   
 <label> <%= f.check_box "show_desc" %> <%= l(:label_glossary_style_show_desc) %> </label>
@@ -25,7 +25,7 @@
 	       GlossaryStyle::GROUP_BY_CATEGORY,
 	       GlossaryStyle::GROUP_BY_PROJECT] %>
 <label><%= f.radio_button('groupby', gby,
-		          { :checked => (gby == @glossary_style.groupby ) } ) %>
+		          { checked: (gby == @glossary_style.groupby ) } ) %>
  <%= l(group_labels[gby]) %></label>
 <% end %>
 </fieldset>
@@ -38,7 +38,7 @@
 </fieldset>
 
 <%= submit_tag l(:label_view) %>
-<%= submit_tag l(:button_clear), :name => 'clear' %>
+<%= submit_tag l(:button_clear), name: 'clear' %>
 
 <% end %>
 <%= form if Rails::VERSION::MAJOR >= 3 %>
