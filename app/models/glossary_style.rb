@@ -24,18 +24,17 @@ class GlossaryStyle < ActiveRecord::Base
   end
 
   def set_default!
-    self['show_desc'] = false
-    self['groupby'] = 1
+    self['show_desc']     = false
+    self['groupby']       = 1
     self['project_scope'] = 0
-    self['sort_item_0'] = ''
-    self['sort_item_1'] = ''
-    self['sort_item_2'] = ''
+    self['sort_item_0']   = ''
+    self['sort_item_1']   = ''
+    self['sort_item_2']   = ''
   end
 
   def sort_params
     ary = []
-    cnt = 0...3
-    cnt.each do
+    (0...3).each do |cnt|
       prm = self["sort_item_#{cnt}"]
       next unless prm && !prm.empty?
       case prm
