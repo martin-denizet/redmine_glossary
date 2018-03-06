@@ -2,7 +2,7 @@
 
 This is the Redmine(Project manage system) plug-in which adds the feature of the glossary.
 
-Ported to 3.0.x and 3.1.x.
+Ported to 3.4.x (and tested with 3.4.x only)
 It doesn't keep compatibility with 2.x!
 
 == Use Cases
@@ -17,7 +17,7 @@ It doesn't keep compatibility with 2.x!
 cf. http://www.redmine.org/wiki/1/Plugins
 
 1. Put the downloaded package in the /plugins directory.
-2. run the following command to upgrade your database. 
+2. run the following command to upgrade your database.
     rake redmine:plugins:migrate RAILS_ENV=production
 3. Restart Redmine WEB server.
 4. Set permissions of glossary plugin in "Administration" -> "Roles and permissions"
