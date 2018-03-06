@@ -1,7 +1,7 @@
 RedmineApp::Application.routes.draw do
   match 'glossary_styles/search',
         to: 'glossary_styles#search',
-        via: 'get'
+        via: %i[get post]
   match 'glossary_styles/edit',
         to: 'glossary_styles#edit',
         via: %i[post patch]
