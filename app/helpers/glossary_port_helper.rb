@@ -13,7 +13,7 @@ module GlossaryPortHelper
 
   def glossary_to_csv(terms)
     # ic = Iconv.new(l(:general_csv_encoding), 'UTF-8')
-    export = FCSV.generate(col_sep: l(:general_csv_separator)) do |csv|
+    export = RG_CSV.generate(col_sep: l(:general_csv_separator)) do |csv|
       # csv header fields
       headers = Term.export_params.collect do |prm|
         label_param(prm)
@@ -40,7 +40,7 @@ module GlossaryPortHelper
       # ic = Iconv.new('UTF-8', portinfo.in_encoding)
 
       raise l(:error_file_none)	unless portinfo.import_file
-      FCSV.parse(portinfo.import_file.read) do |row|
+      RG_CSV.parse(portinfo.import_file.read) do |row|
         line_count += 1
         next	if portinfo.is_first_comment && (line_count == 1)
         next	if row.empty?
