@@ -1,11 +1,11 @@
 <h2><%=h l(:label_glossary_import_csv) %> </h2>
 
 
-<% form_tag({:controller => 'glossary', :action => 'import_csv_exec', :project_id=>@project},
-            {:multipart => true}) do %>
+<% form = form_tag({controller: 'glossary', action: 'import_csv_exec', :project_id=>@project},
+            {multipart: true}) do %>
 
 <%= l(:label_csv_file) %> 
-<%= file_field_tag 'import_file', :accept => 'text/csv', :size => '60%' %>
+<%= file_field_tag 'import_file', accept: 'text/csv', size: '60%' %>
 <br />
 <br />
 <% encs = l(:in_encoding_candidates)
@@ -52,5 +52,6 @@
 
 <%= submit_tag(l(:label_import)) %>
 <% end %>
+<%= form if Rails::VERSION::MAJOR >= 3 %>
 
 <% html_title(l(:glossary_title)) -%>

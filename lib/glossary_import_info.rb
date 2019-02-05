@@ -1,9 +1,9 @@
-# 
+#
 # glossary_import_info.rb
-# 
+#
 # Author : Mitsuyoshi Yoshida
 # This program is freely distributable under the terms of an MIT-style license.
-# 
+#
 
 require 'i18n'
 
@@ -16,29 +16,25 @@ class GlossaryImportInfo
   end
 
   def success?
-    (err_string) ? false : true
+    err_string ? false : true
   end
-
 end
-
 
 class CsvGlossaryImportInfo < GlossaryImportInfo
   attr_accessor :is_first_comment
   attr_reader :col_max
   attr_accessor :cat_num, :newterm_num, :upterm_num
   attr_writer :in_encoding
-  
+
   def initialize(tbl)
     super(tbl)
     @is_first_comment = tbl[:is_first_comment]
     @in_encoding = tbl[:in_encoding]
     @colno_tbl = {}
-    Term.import_params.each {|prm|
+    Term.import_params.each do |prm|
       prmcol = tbl["colno_#{prm}"]
-      if (prmcol and !prmcol.empty?)
-        @colno_tbl[prmcol.to_i] = prm
-      end
-    }
+      @colno_tbl[prmcol.to_i] = prm if prmcol && !prmcol.empty?
+    end
     @col_max = @colno_tbl.keys.max
     @cat_num = 0
     @newterm_num = 0
@@ -46,24 +42,23 @@ class CsvGlossaryImportInfo < GlossaryImportInfo
   end
 
   def in_encoding
-    (@in_encoding) ? @in_encoding : 'UTF-8'
+    @in_encoding ? @in_encoding : 'UTF-8'
   end
-  
+
   def col_param(colno)
     @colno_tbl[colno]
   end
 
   def param_col(prm)
-    @colno_tbl.each {|key, val|
-      return key	if (val == prm)
-    }
+    @colno_tbl.each do |key, val|
+      return key	if val == prm
+    end
     nil
   end
-  
-  def self.default_param_cols(&blk)
-    Term.import_params.each {|prm|
-      yield prm, (Term.export_params.index(prm))
-    }
+
+  def self.default_param_cols
+    Term.import_params.each do |prm|
+      yield prm, Term.export_params.index(prm)
+    end
   end
-    
 end

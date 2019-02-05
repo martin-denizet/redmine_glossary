@@ -1,12 +1,12 @@
 
-<% form_tag({:controller => 'glossary_styles', :action => 'search', :project_id => @project},
-	    {:method => 'get', :id=>'search_form'}
-	    ) do %>
-<%= hidden_field_tag 'project_id', @project.id.to_s %>
+<% form = form_tag({controller: 'glossary_styles', action: 'search', project_id: @project},
+        {method: 'get', :id=>'search_form'}
+        ) do %>
+<%= hidden_field_tag 'project_id', @project.to_param %>
 <div id="glossary_search" class="hide-when-print">
 <fieldset id="filters" class="collapsible <%= (glossary_searching?) ? "" : "collapsed" %>">
-    	<legend onclick="toggleFieldset(this);"><%= l(:label_filter_plural) %></legend>
-    	<div style="<%= (glossary_searching?) ? "" : "display: none;" %>">
+        <legend onclick="toggleFieldset(this);"><%= l(:label_filter_plural) %></legend>
+        <div style="<%= (glossary_searching?) ? "" : "display: none;" %>">
 
 <table>
 
@@ -18,10 +18,10 @@
 <tr><th><%=h l(:field_category) %></th>
 <td>
 <%=
-    select_tag(:search_category, 
-               options_for_select(seach_category_options(@glossary_style.project_scope, @project), 
-	                          params[:search_category]),
-               {:include_blank => true})
+    select_tag(:search_category,
+               options_for_select(seach_category_options(@glossary_style.project_scope, @project),
+                              params[:search_category]),
+               {include_blank: true})
 %>
 </td></tr>
 
@@ -33,7 +33,7 @@
 </table>
 
 <%= submit_tag l(:label_search) %>
-<%= submit_tag l(:button_clear), :name => 'search_clear' %>
+<%= submit_tag l(:button_clear), name: 'search_clear' %>
 
 
 
@@ -42,3 +42,4 @@
 </div>
 
 <% end %>
+<%= form if Rails::VERSION::MAJOR >= 3 %>

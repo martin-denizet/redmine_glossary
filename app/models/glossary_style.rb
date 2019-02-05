@@ -1,51 +1,50 @@
 class GlossaryStyle < ActiveRecord::Base
   unloadable
 
-  GroupByNone = 0
-  GroupByCategory = 1
-  GroupByProject = 2
+  GROUP_BY_NONE     = 0
+  GROUP_BY_CATEGORY = 1
+  GROUP_BY_PROJECT  = 2
 
-  ProjectCurrent = 0
-  ProjectMine = 1
-  ProjectAll = 2
-  
+  PROJECT_CURRENT  = 0
+  PROJECT_MINE     = 1
+  PROJECT_ALL      = 2
+
   belongs_to :project
 
-  
+  attr_accessible :groupby
+
   def grouping?
     case groupby
-    when GroupByCategory
+    when GROUP_BY_CATEGORY
       return true
-    when GroupByProject
-      return (project_scope != ProjectCurrent)
+    when GROUP_BY_PROJECT
+      return (project_scope != PROJECT_CURRENT)
     end
-    return false
+    false
   end
 
   def set_default!
-    self['show_desc'] = false
-    self['groupby'] = 1
+    self['show_desc']     = false
+    self['groupby']       = 1
     self['project_scope'] = 0
-    self['sort_item_0'] = ''
-    self['sort_item_1'] = ''
-    self['sort_item_2'] = ''
+    self['sort_item_0']   = ''
+    self['sort_item_1']   = ''
+    self['sort_item_2']   = ''
   end
 
   def sort_params
     ary = []
-    for cnt in 0...3
+    (0...3).each do |cnt|
       prm = self["sort_item_#{cnt}"]
-      if (prm and !prm.empty?)
-        case prm
-        when 'project'
-          next	if (groupby == GroupByProject or project_scope == ProjectCurrent)
-        when 'category'
-          next	if (groupby == GroupByCategory)
-        end
-        ary << prm
+      next unless prm && !prm.empty?
+      case prm
+      when 'project'
+        next if (groupby == GROUP_BY_PROJECT) || (project_scope == PROJECT_CURRENT)
+      when 'category'
+        next if groupby == GROUP_BY_CATEGORY
       end
+      ary << prm
     end
     ary.uniq
   end
-  
 end

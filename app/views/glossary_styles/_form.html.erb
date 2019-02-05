@@ -1,9 +1,9 @@
 
-<% urlopts = {:controller => 'glossary_styles', :action => 'edit',
-		     :project_id => @project,
-		     :glossary_style_id => @glossary_style.id}
+<% urlopts = {controller: 'glossary_styles', action: 'edit',
+		     project_id: @project,
+		     glossary_style_id: @glossary_style.id}
   add_search_params(urlopts)
-  form_for :glossary_style, @glossary_style, :url => urlopts do |f| %>
+  form = form_for @glossary_style, url: urlopts do |f| %>
 
   
 <label> <%= f.check_box "show_desc" %> <%= l(:label_glossary_style_show_desc) %> </label>
@@ -12,20 +12,20 @@
 <%=h l(:label_project) %>
 <%=
     options = []
-    options << [l(:label_glossary_style_project_current), GlossaryStyle::ProjectCurrent]
-    options << [l(:label_glossary_style_project_mine), GlossaryStyle::ProjectMine] if User.current.logged?
-    options << [l(:label_glossary_style_project_all), GlossaryStyle::ProjectAll]
+    options << [l(:label_glossary_style_project_current), GlossaryStyle::PROJECT_CURRENT]
+    options << [l(:label_glossary_style_project_mine), GlossaryStyle::PROJECT_MINE] if User.current.logged?
+    options << [l(:label_glossary_style_project_all), GlossaryStyle::PROJECT_ALL]
     f.select('project_scope', options)
 %>
 
 
 <fieldset id="grouping"><legend><%= l(:label_grouping) %></legend>
 <% group_labels = [:label_none, :field_category, :label_project] %>
-<% for gby in [GlossaryStyle::GroupByNone,
-	       GlossaryStyle::GroupByCategory,
-	       GlossaryStyle::GroupByProject] %>
+<% for gby in [GlossaryStyle::GROUP_BY_NONE,
+	       GlossaryStyle::GROUP_BY_CATEGORY,
+	       GlossaryStyle::GROUP_BY_PROJECT] %>
 <label><%= f.radio_button('groupby', gby,
-		          { :checked => (gby == @glossary_style.groupby ) } ) %>
+		          { checked: (gby == @glossary_style.groupby ) } ) %>
  <%= l(group_labels[gby]) %></label>
 <% end %>
 </fieldset>
@@ -38,6 +38,7 @@
 </fieldset>
 
 <%= submit_tag l(:label_view) %>
-<%= submit_tag l(:button_clear), :name => 'clear' %>
+<%= submit_tag l(:button_clear), name: 'clear' %>
 
 <% end %>
+<%= form if Rails::VERSION::MAJOR >= 3 %>

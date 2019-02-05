@@ -9,18 +9,19 @@
 <th></th>
 </tr></thead>
 <tbody>
-<% for term in index_in_category -%>	
+<% for term in index_in_category -%>
 <tr class="<%= cycle("odd", "even") %> term">
 <td><%=h term.id       %></td>
 <td><%= term_link(term) %></td>
 <% for prm in @show_params %>
 <td><%=h term.value(prm) %></td>
 <% end %>
-<td><%=h truncate(term.description, :length=>50) %></td>
-<td align="right">
-<% if term.project_id == @project.id %>
-<%= link_to_if_authorized(image_tag('edit.png'), {:action => 'edit', :project_id => @project, :id => term}, :title => l(:button_edit)) %>
-<%= link_to_if_authorized(image_tag('delete.png'), {:action => 'destroy', :project_id => @project, :id => term}, :confirm => l(:text_are_you_sure), :method => :post, :title => l(:button_delete)) %>
+<!--td><%=h truncate(term.description, :length=>50) %></td-->
+<td><%=textilizable term.description %></td>
+<td align="right" width="40px">
+  <% if term.project_id == @project.id %>
+<%= link_to_if_authorized(image_tag('edit.png'), {action: 'edit', project_id: @project, id: term}, title: l(:button_edit)) %>
+<%= link_to_if_authorized(image_tag('delete.png'), {action: 'destroy', project_id: @project, id: term}, method: :post, title: l(:button_delete), data: {confirm: l(:text_are_you_sure)}) %>
 <% end %>
 </td>
 </tr>
